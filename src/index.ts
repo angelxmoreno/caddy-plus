@@ -11,7 +11,7 @@ const caddyfile = () => process.env.CADDYFILE ?? `${homedir()}/caddy/Caddyfile`;
 function parseBlocks(text: string) {
   return [...text.matchAll(/^([^\s{]+)\s*\{([^}]*)\}/gm)].map((m) => ({
     name: m[1],
-    body: m[2],
+    body: m[2] ?? "",
     match: m[0],
   }));
 }
@@ -85,7 +85,7 @@ const main = defineCommand({
           process.exitCode = 1;
           return;
         }
-        const collision = blocks.find((b) => portOf(b.body) === port);
+        const collision = blocks.find((b) => portOf(b.body) === portNum);
         if (collision) consola.warn(`port ${port} already proxied by ${collision.name}`);
         text = text.trimEnd() + `\n\n${name} {\n    tls internal\n    reverse_proxy localhost:${port}\n}\n`;
         await writeFile(caddyfile(), text);
