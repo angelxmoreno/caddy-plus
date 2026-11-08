@@ -15,6 +15,8 @@ Bin name is `caddy+` (package name is `caddy-plus`). Install with `bun install -
 
 Caddyfile path: `~/caddy/Caddyfile`, override with `CADDYFILE` env.
 
+Platform support: macOS/Linux/Windows. `open` uses `open` / `xdg-open` / `cmd /c start`. On Windows, Caddy reload needs the Caddy service or process running; trust certs with `caddy trust`.
+
 ## Development
 
 ```bash

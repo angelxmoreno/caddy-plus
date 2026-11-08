@@ -132,7 +132,12 @@ const main = defineCommand({
           process.exitCode = 1;
           return;
         }
-        Bun.spawn(["open", `http://${name}`]);
+        const openers: Record<string, string[]> = {
+          darwin: ["open"],
+          win32: ["cmd", "/c", "start", ""], // ponytail: leading "" so `start` doesn't treat URL as window title
+          linux: ["xdg-open"],
+        };
+        Bun.spawn([...(openers[process.platform] ?? ["xdg-open"]), `http://${name}`]);
         consola.success(`opened http://${name}`);
       },
     }),
