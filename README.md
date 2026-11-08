@@ -4,8 +4,11 @@ CLI for managing local dev domains in your Caddyfile.
 
 ```bash
 caddy+ list              # table of domains + ports
+caddy+ list --json       # machine-readable output
 caddy+ add bob 7877      # bob.localhost → localhost:7877 (+ caddy reload)
 caddy+ remove bob        # remove block (+ caddy reload)
+caddy+ edit              # open Caddyfile in $EDITOR, reload after exit
+caddy+ open bob          # open bob.localhost in browser
 ```
 
 Bin name is `caddy+` (package name is `caddy-plus`). Install with `bun install -g` or `bun link`.

@@ -19,3 +19,4 @@ Bun CLI (`caddy+`) that manages site blocks in a Caddyfile. Single-file CLI: `sr
 
 - Conventional Commits enforced by commitlint via `.husky/commit-msg`
 - No staging/committing without being asked
+- Every user-facing change (new subcommand, flag, behavior) updates README.md in the same work — the README is the users' source of truth for commands
