@@ -2,10 +2,22 @@
   "name": "caddy-plus",
   "module": "src/index.ts",
   "type": "module",
+  "bin": { "caddy+": "./src/index.ts" },
+  "scripts": {
+    "prepare": "husky"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@types/bun": "latest",
+    "husky": "^9.1.7"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "citty": "^0.2.2",
+    "cli-table3": "^0.6.5",
+    "consola": "^3.4.2"
   }
 }

@@ -1,15 +1,25 @@
-# caddy-plus
+# caddy+
 
-To install dependencies:
+CLI for managing local dev domains in your Caddyfile.
+
+```bash
+caddy+ list              # table of domains + ports
+caddy+ add bob 7877      # bob.localhost → localhost:7877 (+ caddy reload)
+caddy+ remove bob        # remove block (+ caddy reload)
+```
+
+Bin name is `caddy+` (package name is `caddy-plus`). Install with `bun install -g` or `bun link`.
+
+Caddyfile path: `~/caddy/Caddyfile`, override with `CADDYFILE` env.
+
+## Development
 
 ```bash
 bun install
+bun link        # symlink caddy+ bin to this source; edits apply instantly
+bun src/index.ts list   # run without linking
 ```
 
-To run:
+## Git
 
-```bash
-bun run src/index.ts
-```
-
-This project was created using `bun init` in bun v1.3.14. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+Conventional Commits enforced via husky + commitlint (`feat:`, `fix:`, `chore:`, ...).
