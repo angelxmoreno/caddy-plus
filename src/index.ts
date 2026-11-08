@@ -16,8 +16,9 @@ function parseBlocks(text: string) {
   }));
 }
 
-function portOf(body: string): string | null {
-  return body.match(/reverse_proxy\s+localhost:(\d+)/)?.[1] ?? null;
+function portOf(body: string): number | null {
+  const p = body.match(/reverse_proxy\s+localhost:(\d+)/)?.[1];
+  return p === undefined ? null : Number(p);
 }
 
 async function reload() {
@@ -41,8 +42,15 @@ const main = defineCommand({
   subCommands: {
     list: defineCommand({
       meta: { name: "list", description: "List domains in the Caddyfile" },
-      async run() {
+      args: {
+        json: { type: "boolean", description: "Output as JSON" },
+      },
+      async run({ args }) {
         const blocks = parseBlocks(await load());
+        if (args.json) {
+          console.log(JSON.stringify(blocks.map((b) => ({ domain: b.name, port: portOf(b.body) })), null, 2));
+          return;
+        }
         if (!blocks.length) return consola.warn("No site blocks found");
         const table = new Table({ head: ["Domain", "Port"] });
         for (const b of blocks) table.push([b.name, portOf(b.body) ?? "—"]);
