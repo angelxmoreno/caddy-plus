@@ -71,11 +71,14 @@ const main = defineCommand({
           return;
         }
         let text = await load();
-        if (parseBlocks(text).some((b) => b.name === name)) {
+        const blocks = parseBlocks(text);
+        if (blocks.some((b) => b.name === name)) {
           consola.error(`${name} already exists`);
           process.exitCode = 1;
           return;
         }
+        const collision = blocks.find((b) => portOf(b.body) === port);
+        if (collision) consola.warn(`port ${port} already proxied by ${collision.name}`);
         text = text.trimEnd() + `\n\n${name} {\n    tls internal\n    reverse_proxy localhost:${port}\n}\n`;
         await writeFile(caddyfile(), text);
         consola.success(`${name} → localhost:${port}`);
