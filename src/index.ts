@@ -82,6 +82,17 @@ const main = defineCommand({
         await reload();
       },
     }),
+    edit: defineCommand({
+      meta: { name: "edit", description: "Open the Caddyfile in $EDITOR" },
+      async run() {
+        consola.info(`${caddyfile()}`);
+        const proc = Bun.spawn([process.env.EDITOR ?? "vi", caddyfile()], {
+          stdio: ["inherit", "inherit", "inherit"],
+        });
+        await proc.exited;
+        await reload();
+      },
+    }),
     remove: defineCommand({
       meta: { name: "remove", description: "Remove a site block" },
       args: { name: { type: "positional", required: true, description: "Domain name" } },
