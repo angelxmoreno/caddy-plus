@@ -99,6 +99,21 @@ const main = defineCommand({
         await reload();
       },
     }),
+    open: defineCommand({
+      meta: { name: "open", description: "Open a domain in the browser" },
+      args: { name: { type: "positional", required: true, description: "Domain name" } },
+      async run({ args }) {
+        const name = args.name.endsWith(".localhost") ? args.name : `${args.name}.localhost`;
+        const block = parseBlocks(await load()).find((b) => b.name === name);
+        if (!block) {
+          consola.error(`${name} not found`);
+          process.exitCode = 1;
+          return;
+        }
+        Bun.spawn(["open", `http://${name}`]);
+        consola.success(`opened http://${name}`);
+      },
+    }),
   },
 });
 
